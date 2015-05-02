@@ -1,6 +1,6 @@
 # helper-toc [![NPM version](https://badge.fury.io/js/helper-toc.svg)](http://badge.fury.io/js/helper-toc)
 
-> Template helper for generating a table of contents. The TOC can be from content in the current file or for a glob of files.
+> Template helper for generating a table of contents using content from the file in which the helper is used, or for a glob of files.
 
 ## Install with [npm](npmjs.org)
 
