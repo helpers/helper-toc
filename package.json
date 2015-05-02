@@ -1,0 +1,53 @@
+{
+  "name": "helper-toc",
+  "description": "Template helper for generating a table of contents. The TOC can be from content in the current file or for a glob of files.",
+  "version": "0.1.1",
+  "homepage": "https://github.com/jonschlinkert/helper-toc",
+  "author": {
+    "name": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jonschlinkert/helper-toc.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jonschlinkert/helper-toc/issues"
+  },
+  "license": {
+    "type": "MIT",
+    "url": "https://github.com/jonschlinkert/helper-toc/blob/master/LICENSE"
+  },
+  "files": [
+    "index.js"
+  ],
+  "main": "index.js",
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "dependencies": {
+    "globby": "^2.0.0",
+    "markdown-toc": "^0.11.3",
+    "markdown-utils": "^0.6.1",
+    "mixin-deep": "^1.1.0",
+    "relative": "^3.0.0"
+  },
+  "devDependencies": {
+    "mocha": "*",
+    "should": "*",
+    "template": "^0.13.1"
+  },
+  "keywords": [
+    "contents",
+    "helper",
+    "markdown",
+    "md",
+    "table",
+    "table-of-contents",
+    "template",
+    "toc"
+  ]
+}
