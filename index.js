@@ -11,6 +11,7 @@ var fs = require('fs');
 var path = require('path');
 var glob = require('globby');
 var merge = require('mixin-deep');
+var globToc = require('glob-toc');
 var relative = require('relative');
 var mdu = require('markdown-utils');
 var toc = require('markdown-toc');
@@ -19,28 +20,38 @@ var toc = require('markdown-toc');
  * Generate a Table of Contents for a glob of files.
  */
 
-module.exports = function tocHelper(patterns, opts) {
-  if (typeof patterns !== 'string' && !Array.isArray(patterns)) {
-    throw new TypeError('helper-toc expects patterns to be a string or array.');
-  }
+module.exports = function (config) {
+  config = config || {};
 
-  opts = opts || {};
-  if (this && this.app && this.options) {
-    opts = merge({}, this.options, opts);
-  }
+  return function tocHelper(patterns, opts) {
+    if (typeof patterns !== 'string' && !Array.isArray(patterns)) {
+      throw new TypeError('helper-toc expects patterns to be a string or array.');
+    }
 
-  opts.filter = filter(opts.ignore);
+    opts = merge({}, config, opts);
+    if (this && this.app && this.options) {
+      opts = merge({}, this.options, opts);
+    }
 
-  var files = glob.sync(patterns, opts);
-  if (opts.toc === false || !files.length) return '';
+    if (opts.toc === false) return '';
 
-  return files.map(function (fp) {
-    return generate(fp, opts);
-  }).join('\n');
+    opts.filter = filter(opts.ignore);
+    var files = glob.sync(patterns, opts);
+
+    if (!files.length) return '';
+    if (opts.read === false) {
+      return globToc(files, opts);
+    }
+
+    return files.map(function (fp) {
+      return generate(fp, opts);
+    }).join('\n');
+  };
 };
 
 function generate(fp, opts) {
   opts = opts || {};
+  var res = '';
 
   fp = path.join(opts.cwd || process.cwd(), fp);
   var str = fs.readFileSync(fp, 'utf8');
@@ -48,15 +59,14 @@ function generate(fp, opts) {
   var isTemplate = templateRe().test(first);
 
   // don't generate a TOC for a heading that's actually a template
-  if (isTemplate) {
-    return '';
-  }
+  if (isTemplate) return '';
 
-  var res = '';
+  // skip section headings
   if (opts.section !== false) {
     res += mdu.strong(mdu.link(first, relative(fp)));
   }
 
+  // temporary heuristic
   res += '__AFTER__';
   res += '\n';
 
@@ -81,6 +91,10 @@ function generate(fp, opts) {
   res = res.split('__AFTER__').join('\n');
   return res.trim() + '\n';
 }
+
+/**
+ * Template regex
+ */
 
 function templateRe() {
   return /([<{]%=|\{\{.+\}\})/;
