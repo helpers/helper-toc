@@ -1,7 +1,7 @@
 {
   "name": "helper-toc",
   "description": "Template helper for generating a table of contents using content from the file in which the helper is used, or for a glob of files.",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "homepage": "https://github.com/jonschlinkert/helper-toc",
   "author": {
     "name": "Jon Schlinkert",
@@ -29,6 +29,7 @@
     "test": "mocha"
   },
   "dependencies": {
+    "glob-toc": "^0.1.2",
     "globby": "^2.0.0",
     "markdown-toc": "^0.11.3",
     "markdown-utils": "^0.6.1",
@@ -36,6 +37,7 @@
     "relative": "^3.0.0"
   },
   "devDependencies": {
+    "lodash": "^3.8.0",
     "mocha": "*",
     "should": "*",
     "template": "^0.13.1"
